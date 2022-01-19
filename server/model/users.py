@@ -44,7 +44,8 @@ class Users(db.Model):
         self.password_hashed = self.generate_password_hash(input_password)
     
     def generate_password_hash(self, input_password):
-        return hashlib.md5(input_password.encode('utf8')).hexdigest()
+        pre_hashed = hashlib.sha512(input_password.encode('utf8')).hexdigest()
+        return hashlib.md5(pre_hashed.encode('utf8')).hexdigest()
     
     def verify_password(self, input_password):
         hashed_input_pw = self.generate_password_hash(input_password)
