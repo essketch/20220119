@@ -68,6 +68,20 @@ class UserPasswordFind(Resource):
                 'code' : 400,
                 'message' : '개인 정보가 맞지 않습니다'
             }, 400
+        
+        mailgun_url = 'https://api.mailgun.net/v3/mg.gudoc.in/messages'
+        email_data = {
+            'from' : ?,
+            'to' : ?,
+            'subject' : '비밀번호 찾기 메일 제목',
+            'text' : '실제 발송 내용'
+        }
+        requests.post(
+            url = mailgun_url,
+            data = email_data,
+            auth = ('api', )
+        )
+        
             
         return {
             'code' : 200,
