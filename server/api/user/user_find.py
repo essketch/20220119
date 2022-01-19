@@ -66,11 +66,16 @@ class UserFind(Resource):
         
         response = requests.post(url=sms_url, data=send_data)
         respJson = response.json()
-        print('문자 전송 결과 : ', respJson)
-        print('결과 코드 : ', respJson['result_code'])
-        print('메세지 : ', respJson['message'])
         
-        return {
-            'code' : 200,
-            'message' : '이메일 찾기 - 문자 전송 완료',
-        }
+        if int(respJson['result_code']) != 1 :
+            return {
+                'code' : 500,
+                'message' : respJson['message']
+            }, 500
+        
+        else : 
+            return {
+                'code' : 200,
+                'message' : '이메일 찾기 - 문자 전송 완료',
+            }
+        
