@@ -44,15 +44,22 @@ class UserFind(Resource):
         args = get_parser.parse_args()
         user = Users.query\
             .filter(Users.name == args['name'])\
-            .filter(Users.phone == args['phone'])\
             .first()
         
         if user is None:
             return {
                 'code' : 400,
-                'message' : '입력값이 틀렸습니다.'
+                'message' : '해당 이름이 없습니다'
             }, 400
         
+        input_phone = args['phone'].replace('-', '')
+        user_phone = user.phone.replace('-', '')
+        
+        if input_phone != user_phone:
+            return{
+                'code' : 400,
+                'message' : '전화번호가 다릅니다'
+            }, 400
 
         sms_url = 'https://apis.aligo.in/send/'
         
