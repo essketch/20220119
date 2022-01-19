@@ -4,7 +4,6 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from flask_sqlalchemy import SQLAlchemy
 
 
-
 db = SQLAlchemy()
 
 def create_app(config_name):
