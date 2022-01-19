@@ -5,7 +5,7 @@ class Users(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), nullable=False, default ='email 미입력') #실질 기본값
-    password = db.Column(db.String(50), nullable=False)
+    password_hashed = db.Column(db.String(32), nullable=False)
     name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20))
     birth_year = db.Column(db.Integer, nullable=False, default=1995)

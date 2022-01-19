@@ -69,7 +69,9 @@ class UserPasswordFind(Resource):
                 'code' : 400,
                 'message' : '개인 정보가 맞지 않습니다'
             }, 400
-            
+        
+        
+        
         send_content = f"""
         안녕하세요. MySNS입니다.
         비밀번호 안내 드립니다.
