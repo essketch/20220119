@@ -54,10 +54,18 @@ class UserFind(Resource):
             }, 400
         
 
-        url = 'https://apis.aligo.in/send/'
+        sms_url = 'https://apis.aligo.in/send/'
         
+        send_data = {
+            'key' : current_app.config['ALIGO_API_KEY'],
+            'user_id' : 'cho881020',
+            'sender' : '010-5112-3237',
+            'receiver' : user.phone,
+            'msg' : f"MySNS 계정안내 \n 가입하신 계정은 [{user.email}]입니다."
+        }
         
-
+        requests.post(url=sms_url, data = send_data)
+        
         return {
             'code' : 200,
             'message' : '이메일 찾기 - 문자 전송 완료',
