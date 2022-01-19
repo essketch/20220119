@@ -1,3 +1,4 @@
+
 from flask import current_app, g
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
@@ -8,11 +9,10 @@ from server.model import FeedReplies
 from server.api.utils import token_required
 
 post_parser = reqparse.RequestParser()
-post_parser.add_argument('feed_id', type=int, required=True, location='form')
 post_parser.add_argument('content', type=str, required=True, location='form')
 
 put_parser = reqparse.RequestParser()
-put_parser.add_argument('feed_reply_id', type=int, required=True, location='form')
+# put_parser.add_argument('feed_reply_id', type=int, required=True, location='form')
 put_parser.add_argument('content', type=str, required=True, location='form')
 
 
@@ -59,8 +59,9 @@ class FeedReply(Resource):
 
         args = post_parser.parse_args()
         user = g.user
+        
         new_reply = FeedReplies()
-        new_reply.feed_id = args['feed_id']
+        new_reply.feed_id = feed_id
         new_reply.user_id = user.id
         new_reply.content = args['content']
         
@@ -128,5 +129,4 @@ class FeedReply(Resource):
         return {
             'code' : 200,
             'message' : '댓글 수정 성공',
-            }
         }

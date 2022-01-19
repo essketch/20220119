@@ -2,7 +2,8 @@ from flask import Flask
 from flask_restful_swagger_2 import Api
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_sqlalchemy import SQLAlchemy
-from server.api.feed.feed_reply import FeedReply
+
+
 
 db = SQLAlchemy()
 
@@ -17,6 +18,7 @@ def create_app(config_name):
     from server.api.user import User, UserProfileImage
     from server.api.lecture import Lecture, LectureDetail
     from server.api.feed import Feed
+    from server.api.feed import FeedReply
     api.add_resource(User, '/user')
     api.add_resource(UserProfileImage, '/user/profile')
     api.add_resource(Lecture,'/lecture')
