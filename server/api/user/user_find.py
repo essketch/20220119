@@ -64,7 +64,11 @@ class UserFind(Resource):
             'msg' : f"MySNS 계정안내 \n 가입하신 계정은 [{user.email}]입니다."
         }
         
-        requests.post(url=sms_url, data = send_data)
+        response = requests.post(url=sms_url, data=send_data)
+        respJson = response.json()
+        print('문자 전송 결과 : ', respJson)
+        print('결과 코드 : ', respJson['result_code'])
+        print('메세지 : ', respJson['message'])
         
         return {
             'code' : 200,
