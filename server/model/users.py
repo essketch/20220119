@@ -31,3 +31,11 @@ class Users(db.Model):
             data['my_feeds'] = [feed.get_data_object(need_writer=False) for feed in self.my_feeds]
 
         return data
+    
+    @property
+    def password(self):
+        raise AttributeError('password 변수는 쓰기 전용입니다. 조회는 불가합니다.')
+    
+    @password.setter
+    def password(self, input_password):
+        self.password_hashed = input_password

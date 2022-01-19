@@ -11,7 +11,7 @@ token_parser.add_argument('X-Http-Token', type=str, required=True, location='hea
 def encode_token(user):
 
     return jwt.encode(
-        {'id' : user.id,'email' : user.email,'password' : user.password,},
+        {'id' : user.id,'email' : user.email,'password' : user.password_hashed,},
         current_app.config['JWT_SECRET'],
         algorithm=current_app.config['JWT_ALGORITHM'],
         )
