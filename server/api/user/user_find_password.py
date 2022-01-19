@@ -6,14 +6,22 @@ from server.model import Users
 from server import db
 
 get_parser = reqparse.RequestParser()
+get_parser.add_argument('email', type = str , required = True, location = 'args')
 get_parser.add_argument('name', type = str , required = True, location = 'args')
 get_parser.add_argument('phone', type = str , required = True, location = 'args')
 
-class UserEmailFind(Resource):
+class UserPasswordFind(Resource):
     @swagger.doc({
         'tags' : ['user'],
-        'description' : '이메일 찾기 문자 전송',
+        'description' : '비밀번호 찾기',
         'parameters' : [
+            {
+                'name' : 'email',
+                'description' : '사용중인 이메일',
+                'in' : 'query',
+                'type' : 'string',
+                'required' : True
+            },
             {
                 'name' : 'name',
                 'description' : '사용중인 이름',
@@ -31,7 +39,7 @@ class UserEmailFind(Resource):
         ],
         'responses' : {
             '200' : {
-                'description' : '이메일이 문자로 전송되었습니다'
+                'description' : '비밀번호가 이메일로 전송되었습니다'
             },
             '400' : {
                 'description' : '입력값이 틀렸습니다'
@@ -40,49 +48,28 @@ class UserEmailFind(Resource):
     })
 
     def get(self):
-        """이메일 찾기 문자 전송"""
+        """비밀번호 찾기 (이메일 전송)"""
         args = get_parser.parse_args()
         user = Users.query\
-            .filter(Users.name == args['name'])\
+            .filter(Users.email == args['email'])\
             .first()
         
         if user is None:
             return {
                 'code' : 400,
-                'message' : '해당 이름이 없습니다'
+                'message' : '해당 이메일이 없습니다'
             }, 400
         
         input_phone = args['phone'].replace('-', '')
         user_phone = user.phone.replace('-', '')
         
-        if input_phone != user_phone:
+        if input_phone != user_phone or args['name'] != user.name:
             return{
                 'code' : 400,
-                'message' : '전화번호가 다릅니다'
+                'message' : '개인 정보가 맞지 않습니다'
             }, 400
-
-        sms_url = 'https://apis.aligo.in/send/'
-        
-        send_data = {
-            'key' : current_app.config['ALIGO_API_KEY'],
-            'user_id' : 'cho881020',
-            'sender' : '010-5112-3237',
-            'receiver' : user.phone,
-            'msg' : f"MySNS 계정안내 \n 가입하신 계정은 [{user.email}]입니다."
+            
+        return {
+            'code' : 200,
+            'message' : '비밀번호를 이메일로 전송했습니다'
         }
-        
-        response = requests.post(url=sms_url, data=send_data)
-        respJson = response.json()
-        
-        if int(respJson['result_code']) != 1 :
-            return {
-                'code' : 500,
-                'message' : respJson['message']
-            }, 500
-        
-        else : 
-            return {
-                'code' : 200,
-                'message' : '이메일 찾기 - 문자 전송 완료',
-            }
-        
