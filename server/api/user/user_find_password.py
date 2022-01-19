@@ -1,3 +1,4 @@
+from urllib import response
 import requests
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
@@ -68,19 +69,28 @@ class UserPasswordFind(Resource):
                 'code' : 400,
                 'message' : '개인 정보가 맞지 않습니다'
             }, 400
+            
+        send_content = f"""
+        안녕하세요. MySNS입니다.
+        비밀번호 안내 드립니다.
+        회원님의 비밀번호는 {user.password}입니다.
+        """
         
         mailgun_url = 'https://api.mailgun.net/v3/mg.gudoc.in/messages'
         email_data = {
-            'from' : ?,
-            'to' : ?,
-            'subject' : '비밀번호 찾기 메일 제목',
-            'text' : '실제 발송 내용'
+            'from' : 'system@gudoc.in',
+            'to' : user.email,
+            'subject' : '[MySNS 비밀번호 안내] 비밀번호 찾기 메일입니다',
+            'text' : send_content
         }
-        requests.post(
+        response = requests.post(
             url = mailgun_url,
             data = email_data,
-            auth = ('api', )
+            auth = ('api', current_app.config['MAILGUN_API_KEY'])
         )
+        
+        respJson = response.json()
+        print(respJson)
         
             
         return {

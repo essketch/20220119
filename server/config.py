@@ -12,6 +12,7 @@ class Config(object):
     JWT_ALGORITHM = 'HS512'
     JWT_SECRET = 'my_strong_key'
     ALIGO_API_KEY = 'i5m8plmyxhcpwfvty29hbzko2zzgi0nq'
+    MAILGUN_API_KEY = 'fea70faa6e0b2dff8740427c0b48f05c-7b8c9ba8-41d27327'
 
 
 class ProductionConfig(Config): #기본설정 그대로
