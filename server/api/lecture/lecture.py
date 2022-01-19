@@ -30,10 +30,6 @@ class Lecture(Resource):
             }
         }
 
-
-
-
-
     @swagger.doc({
         'tags' : ['lecture'],
         'description' : '수강 취소',
