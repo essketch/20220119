@@ -141,7 +141,7 @@ class User(Resource):
             }, 400
 
         
-        if login_user.password == args['password']:
+        if login_user.verify_password(args['password']):
             return {
                 'code' : 200,
                 'message' : '로그인 성공',

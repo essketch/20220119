@@ -1,4 +1,7 @@
 from server import db
+import datetime
+import hashlib
+
 class Users(db.Model):
 
     __tablename__ = 'users'
@@ -38,4 +41,11 @@ class Users(db.Model):
     
     @password.setter
     def password(self, input_password):
-        self.password_hashed = input_password
+        self.password_hashed = self.generate_password_hash(input_password)
+    
+    def generate_password_hash(self, input_password):
+        return hashlib.md5(input_password.encode('utf8')).hexdigest()
+    
+    def verify_password(self, input_password):
+        hashed_input_pw = self.generate_password_hash(input_password)
+        return self.password_hashed == hashed_input_pw
