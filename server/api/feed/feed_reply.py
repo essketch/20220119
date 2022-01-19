@@ -198,3 +198,37 @@ class FeedReply(Resource):
             'code' : 200,
             'message' : '댓글 삭제 성공',
         }
+        
+    @swagger.doc({
+        'tags' : ['feed/reply'],
+        'description' : '댓글 조회',
+        'parameters' : [
+            {
+            'name' : 'feed_id',
+            'description' : '게시글 번호',
+            'in' : 'path',
+            'type' : 'integer',
+            'required' : True
+            },
+        ],
+        'responses': {
+            '200' : {
+                'description' : '댓글 조회 성공'
+            },
+        }
+    })
+    def get(self, feed_id):
+        """댓글 조회""" 
+        reply_data_list = FeedReplies.query\
+            .filter(FeedReplies.feed_id == feed_id)\
+            .all()
+        
+        replies = [reply.get_data_object() for reply in reply_data_list]
+
+        return {
+            'code' : 200,
+            'message' : '댓글 조회 성공',
+            'data' : {
+                'replies' : replies
+            }
+        }
