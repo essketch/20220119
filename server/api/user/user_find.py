@@ -9,7 +9,7 @@ get_parser = reqparse.RequestParser()
 get_parser.add_argument('name', type = str , required = True, location = 'args')
 get_parser.add_argument('phone', type = str , required = True, location = 'args')
 
-class UserFind(Resource):
+class UserEmailFind(Resource):
     @swagger.doc({
         'tags' : ['user'],
         'description' : '이메일 찾기 문자 전송',
