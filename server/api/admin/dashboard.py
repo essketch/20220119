@@ -1,11 +1,32 @@
 from flask_restful import Resource
+from flask_restful_swagger_2 import swagger
 from server.model import Users, LectureUser, Lectures
 from server import db
 import datetime
 
 class AdminDashboard(Resource):
 
+
+    @swagger.doc({
+        'tags' : ['admin'],
+        'description' : '관리자 대시보드',
+        'parameters' : [
+            {
+                'name' : 'X-Http-Token',
+                'description' : '관리자 인증용 헤더',
+                'in' : 'header',
+                'type' : 'string',
+                'required' : True, 
+            }
+        ],
+        'responses' : {
+            '200' : {
+                'description' : '관리자 조회 성공'
+            }
+        }
+    })
     def get(self):
+        """관리자 대시보드"""
         users_count = Users.query\
             .filter(Users.email != 'retired')\
             .count()
