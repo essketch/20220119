@@ -18,6 +18,7 @@ def create_app(config_name):
     from server.api.lecture import Lecture, LectureDetail
     from server.api.feed import Feed
     from server.api.feed import FeedReply
+    from server.api.admin import AdminDashboard
     api.add_resource(User, '/user')
     api.add_resource(UserProfileImage, '/user/profile')
     api.add_resource(UserEmailFind, '/user/find/email')
@@ -26,6 +27,7 @@ def create_app(config_name):
     api.add_resource(LectureDetail, '/lecture/<int:lecture_id>')
     api.add_resource(Feed, '/feed')
     api.add_resource(FeedReply, '/feed/<int:feed_id>/reply')
+    api.add_resource(AdminDashboard, '/admin/dashboard')
 
     swagger_ui = get_swaggerui_blueprint('/api/docs', '/api/spec.json', config={'app_name' : 'my sns service'})
     app.register_blueprint(swagger_ui, url_prefix='/api/docs')
