@@ -7,6 +7,7 @@ class Lectures(db.Model):
     title = db.Column(db.String(20), nullable = False)
     campus = db.Column(db.String(20), nullable = False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    fee = db.Column(db.Integer, nullable = False)
 
     teacher = db.relationship('Users')
 
@@ -17,7 +18,8 @@ class Lectures(db.Model):
             'id' : self.id,
             'title' : self.title,
             'campus' : self.campus,
-            'teacher_id' : self.teacher_id
+            'teacher_id' : self.teacher_id,
+            'fee' : self.fee
         }
 
         if need_teacher_info:
