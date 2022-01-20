@@ -54,3 +54,15 @@ def token_required(func):
             }, 403
     return decorator
 
+def admin_required(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        user = g.user
+        if not user.is_admin :
+            return {
+                'code' : 403,
+                'message' : '권한이 없습니다'
+                }, 403
+        return func(*args, **kwargs)
+    
+    return decorator
