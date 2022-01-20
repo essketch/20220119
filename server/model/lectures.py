@@ -23,6 +23,6 @@ class Lectures(db.Model):
         }
 
         if need_teacher_info:
-            data['teacher'] = self.teacher.get_data_object()
+            data['teacher'] = self.teacher.get_data_object() if self.teacher else None
 
-        return data
+        return data 
