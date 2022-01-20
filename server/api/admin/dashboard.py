@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_restful_swagger_2 import swagger
 from server.model import Users, LectureUser, Lectures
+from server.api.utils import token_required
 from server import db
 import datetime
 
@@ -25,6 +26,7 @@ class AdminDashboard(Resource):
             }
         }
     })
+    @token_required
     def get(self):
         """관리자 대시보드"""
         users_count = Users.query\

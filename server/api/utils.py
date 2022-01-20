@@ -14,6 +14,8 @@ def encode_token(user):
         {'id' : user.id,'email' : user.email,'password' : user.password_hashed,},
         current_app.config['JWT_SECRET'],
         algorithm=current_app.config['JWT_ALGORITHM'],
+        # headers=None,
+        # json_encoder=None
         )
 
 def decode_token(token):
@@ -27,11 +29,12 @@ def decode_token(token):
         user = Users.query\
             .filter(Users.id == decoded_dict['id'])\
             .filter(Users.email == decoded_dict['email'])\
-            .filter(Users.password == decoded_dict['password'])\
+            .filter(Users.password_hashed == decoded_dict['password'])\
             .first()
         return user
     
     except jwt.exceptions.DecodeError:
+        print('토큰 디코드 에러 발생')
         return None
 
 def token_required(func):

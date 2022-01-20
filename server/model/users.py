@@ -16,6 +16,7 @@ class Users(db.Model):
     profile_img_url = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     retired_at = db.Column(db.DateTime)
+    is_admin = db.Column(db.Boolean, default=False)
 
     my_feeds = db.relationship('Feeds', backref='writer')
 
@@ -26,6 +27,7 @@ class Users(db.Model):
             'name' : self.name,
             'phone' : self.phone,
             'birth_year' : self.birth_year,
+            'gender' : self.gender,
             'profile_img_url' : f"https://python202201kbj.s3.ap-northeast-2.amazonaws.com/{self.profile_img_url}" if self.profile_img_url else None,
             'created_at' : str(self.created_at),
             'retired_at' : str(self.retired_at) if self.retired_at else None,
