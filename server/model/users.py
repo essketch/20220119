@@ -12,6 +12,7 @@ class Users(db.Model):
     name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20))
     birth_year = db.Column(db.Integer, nullable=False, default=1995)
+    gender = db.Column(db.Boolean, default=False)
     profile_img_url = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     retired_at = db.Column(db.DateTime)
